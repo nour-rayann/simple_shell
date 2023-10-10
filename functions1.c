@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * _strcpy - copies a string into another
  * @line_ptr: to be copied
@@ -50,4 +51,49 @@ int num_tokens(char *line_ptr)
 		token = strtok(NULL, delim);
 	}
 	return (num);
+}
+
+/**
+ * create_tokens - It handle tokenization.
+ * @lineptr: String passed to the shell.
+ * Return: argv a 2D array.
+ */
+char **create_tokens(char *lineptr)
+{
+	char *lineptr_copy = _strcpy(lineptr);
+	char *delim = " \n";
+	char *token;
+	char **argv;
+	int num, i;
+
+	num = num_tokens(lineptr_copy);
+	argv = malloc(sizeof(char *) * num);
+	token = strtok(lineptr_copy, delim);
+
+	for (i = 0; token != NULL; i++)
+	{
+		argv[i] = malloc(_strlen(token) * sizeof(char));
+		argv[i] = _strcpy(token);
+		token = strtok(NULL, delim);
+	}
+	argv[i] = NULL;
+
+	return (argv);
+}
+
+/**
+ * execute_command - It begins the fork() process.
+ * @argv: A 2D array of tokens.
+ * Return: void.
+ */
+void execute_command(char **argv)
+{
+	pid_t child_pid;
+
+	child_pid = fork();
+	if (child_pid == 0)
+	{
+		execute(argv);
+		exit(0);
+	}
 }

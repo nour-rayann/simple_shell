@@ -14,5 +14,8 @@ char *_strcpy(char *line_ptr);
 int _strlen(char *str);
 int num_tokens(char *line_ptr);
 void execute(char **argv);
+char **create_tokens(char *lineptr);
+void execute_command(char **argv);
+void free_tokens(char **tokens);
 
 #endif
