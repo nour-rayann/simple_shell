@@ -68,7 +68,7 @@ char **create_tokens(char *lineptr)
 
 	num = num_tokens(lineptr_copy);
 	argv = malloc(sizeof(char *) * num);
-	token = strtok(lineptr_copy, delim);
+	token = strtok(lineptr, delim);
 
 	for (i = 0; token != NULL; i++)
 	{
