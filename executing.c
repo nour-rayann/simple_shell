@@ -12,6 +12,12 @@ void execute_command(char **argv)
 
 	if (argv && argv[0]) /* check for non-empty case */
 	{
+		/* Check if the command is "exit" */
+		if (_strcmp(argv[0], "exit") == 0)
+		{
+			exit(0);
+		}
+
 		/* store command */
 		cmd_copy = argv[0];
 

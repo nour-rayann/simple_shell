@@ -17,6 +17,7 @@ int _strlen(char *str);
 char *_strcat(char *dest, char *src);
 char *_strdup(char *s);
 char *_memcpy(char *dest, char *src, unsigned int n);
+int _strcmp(char *s1, char *s2);
 
 /** main function **/
 int num_tokens(char *line_ptr);
