@@ -20,6 +20,34 @@ char *_strcpy(char *line_ptr)
 }
 
 /**
+ * _strcpy2 - Copies a string pointed to by @src, including
+ *           the terminating null byte, to a buffer pointed
+ *           to by @dest.
+ * @dest: A buffer to copy the string to.
+ * @src: The source string to copy.
+ *
+ * Return: A pointer to the @dest.
+ */
+
+char *_strcpy2(char *dest, char *src)
+{
+	int idx;
+	int len = 0;
+
+	/** A loop to find the length of the string */
+	while (src[len] != '\0')
+	{
+		len++;
+	}
+
+	for (idx = 0; idx <= len; idx++)
+	{
+		dest[idx] = src[idx];
+	}
+	return (dest);
+}
+
+/**
  * _strlen - calculates length of a string
  * @str: to calculate its length
  * Return: length of string
@@ -34,66 +62,34 @@ int _strlen(char *str)
 }
 
 /**
- * num_tokens - calculates number of tokens
- * @line_ptr: string to be tokenized
- * Return: number of tokens
-*/
-int num_tokens(char *line_ptr)
-{
-	const char *delim = " \n";
-	char *token;
-	int num = 1;
-
-	token = strtok(line_ptr, delim);
-	while (token)
-	{
-		num++;
-		token = strtok(NULL, delim);
-	}
-	return (num);
-}
-
-/**
- * create_tokens - It handle tokenization.
- * @lineptr: String passed to the shell.
- * Return: argv a 2D array.
+ * _strcat - appends the src string to the dest string,
+ *           overwriting the terminating null byte (\0)
+ *           at the end of dest, and then adds a
+ *           terminating null byte.
+ *
+ * @src: The source string.
+ * @dest: The destination string.
+ * Return: a pointer to the resulting string dest.
  */
-char **create_tokens(char *lineptr)
+
+char *_strcat(char *dest, char *src)
 {
-	char *lineptr_copy = _strcpy(lineptr);
-	char *delim = " \n";
-	char *token;
-	char **argv;
-	int num, i;
+	int didx = 0;
+	int sidx = 0;
 
-	num = num_tokens(lineptr_copy);
-	argv = malloc(sizeof(char *) * num);
-	token = strtok(lineptr, delim);
-
-	for (i = 0; token != NULL; i++)
+	/* A loop to put pointer at string end */
+	while (dest[didx] != '\0')
 	{
-		argv[i] = malloc(_strlen(token) * sizeof(char));
-		argv[i] = _strcpy(token);
-		token = strtok(NULL, delim);
+		didx++;
 	}
-	argv[i] = NULL;
 
-	return (argv);
-}
-
-/**
- * execute_command - It begins the fork() process.
- * @argv: A 2D array of tokens.
- * Return: void.
- */
-void execute_command(char **argv)
-{
-	pid_t child_pid;
-
-	child_pid = fork();
-	if (child_pid == 0)
+	while (src[sidx] != '\0')
 	{
-		execute(argv);
-		exit(0);
+		dest[didx] = src[sidx];
+		didx++;
+		sidx++;
 	}
+	dest[didx] = '\0';
+
+	return (dest);
 }

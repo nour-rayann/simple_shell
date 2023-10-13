@@ -1,16 +1,50 @@
 #include "main.h"
+
 /**
- * execute - to execute the line given by user
- * @argv: command to be executed
+ * execute_command - It begins the fork() process.
+ * @argv: A 2D array of tokens.
+ * Return: void.
+ */
+void execute_command(char **argv)
+{
+	pid_t child_pid;
+	char *cmd = NULL, *cmd_copy = NULL;
+
+	if (argv && argv[0]) /* check for non-empty case */
+	{
+		/* store command */
+		cmd_copy = argv[0];
+
+		/* generate the path to the command */
+		cmd = get_address(cmd_copy);
+
+		if (cmd != NULL) /* check if PATH is valid */
+		{
+			child_pid = fork(); /* fork a new process */
+			if (child_pid == 0)
+			{
+				execute(cmd, argv);
+				exit(0);
+			}
+		}
+		else /* if invalid, don't fork() new process */
+		{
+			perror("Error:");
+		}
+	}
+}
+
+/**
+ * execute - to execute the line given by user.
+ * @cmd: The command to execute.
+ * @argv: command and arguments to be executed.
  * Return: nothing
 */
-void execute(char **argv)
+void execute(char *cmd, char **argv)
 {
-	if (argv)
+	/* execute command & check execve */
+	if (execve(cmd, argv, NULL) == -1)
 	{
-		if (execve(argv[0], argv, NULL) == -1)
-		{
-			perror("Error");
-		}
+		perror("Error:");
 	}
 }

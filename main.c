@@ -7,18 +7,20 @@
 */
 int main(int ac, char **argv)
 {
-		ssize_t num_char_read;
-		size_t n;
-		char *line_ptr = NULL;
-		char **tokens;
-		int state;
-		(void)ac;
-		(void)argv;
+	struct stat stdin_stat;
+	ssize_t num_char_read;
+	size_t n;
+	char *line_ptr = NULL;
+	char **tokens;
+	int state;
+	(void)ac;
+	(void)argv;
 
 	while (1)
 	{
+		if (fstat(STDIN_FILENO, &stdin_stat) == 0 && S_ISCHR(stdin_stat.st_mode))
+			printf("simple_shell$ ");
 
-		printf("simple_shell$ ");
 		num_char_read = getline(&line_ptr, &n, stdin);
 		if (num_char_read == -1)
 		{

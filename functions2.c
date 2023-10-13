@@ -1,17 +1,43 @@
 #include "main.h"
 
 /**
- * free_tokens - Free 2D array of tokens.
- * @tokens: A 2D array.
- * Return: Void.
+ * _memcpy - Copies a  memory area.
+ * @dest: The destination memory area.
+ * @src: The source memory block.
+ * @n: The number of bytes to be copied.
+ *
+ * Return: A pointer to the array dest.
  */
-void free_tokens(char **tokens)
-{
-	int i;
 
-	for (i = 0; tokens[i] != NULL; i++)
+char *_memcpy(char *dest, char *src, unsigned int n)
+{
+	int size = n; /* To only accept possitive integers */
+	int idx = 0;
+
+	if (size > 0)
 	{
-		free(tokens[i]);
+		for (; idx < size; idx++)
+		{
+			dest[idx] = src[idx];
+		}
 	}
-	free(tokens);
+	return (dest);
+}
+
+/**
+ * _strdup - duplicates a str in the heap memory.
+ * @s: Type char pointer str
+ * Return: duplicated str
+ */
+char *_strdup(char *s)
+{
+	char *new;
+	size_t len;
+
+	len = _strlen(s);
+	new = malloc(sizeof(char) * (len + 1));
+	if (new == NULL)
+		return (NULL);
+	_memcpy(new, s, len + 1);
+	return (new);
 }
