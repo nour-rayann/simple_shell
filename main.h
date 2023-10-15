@@ -10,7 +10,7 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
-int main(int ac, char **argv);
+int main(void);
 
 /* custom functions */
 char *_strcpy(char *line_ptr);

@@ -1,11 +1,9 @@
 #include "main.h"
 /**
  * main - main function for shell
- * @ac: number of arguments
- * @argv: list of arguments
  * Return: int
 */
-int main(int ac, char **argv)
+int main(void)
 {
 	struct stat stdin_stat;
 	ssize_t num_char_read;
@@ -13,8 +11,6 @@ int main(int ac, char **argv)
 	char *line_ptr = NULL;
 	char **tokens;
 	int state;
-	(void)ac;
-	(void)argv;
 
 	while (1)
 	{

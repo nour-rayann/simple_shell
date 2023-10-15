@@ -9,6 +9,7 @@ void execute_command(char **argv)
 {
 	pid_t child_pid;
 	char *cmd = NULL, *cmd_copy = NULL;
+	int status;
 
 	if (argv && argv[0]) /* check for non-empty case */
 	{
@@ -32,6 +33,14 @@ void execute_command(char **argv)
 				execute(cmd, argv);
 				exit(0);
 			}
+			else /**in case of error*/
+			{
+				waitpid(child_pid, &status, 0);
+				if (status != 0)
+				{
+					exit(2);
+				}
+			}
 		}
 		else /* if invalid, don't fork() new process */
 		{
@@ -51,6 +60,6 @@ void execute(char *cmd, char **argv)
 	/* execute command & check execve */
 	if (execve(cmd, argv, NULL) == -1)
 	{
-		perror("Error:");
+		perror("Error");
 	}
 }
