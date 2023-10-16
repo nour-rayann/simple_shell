@@ -27,8 +27,8 @@ char **create_tokens(char *lineptr);
 void free_tokens(char **tokens);
 
 /* command execution */
-void execute_command(char **argv);
-void execute(char *cmd, char **argv);
+int execute_command(char **argv);
+int execute(char *cmd, char **argv);
 
 /* PATH handling */
 char *get_address(char *cmd_copy);

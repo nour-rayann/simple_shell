@@ -3,9 +3,9 @@
 /**
  * execute_command - It begins the fork() process.
  * @argv: A 2D array of tokens.
- * Return: void.
+ * Return: int.
  */
-void execute_command(char **argv)
+int execute_command(char **argv)
 {
 	pid_t child_pid;
 	char *cmd = NULL, *cmd_copy = NULL;
@@ -33,33 +33,42 @@ void execute_command(char **argv)
 				execute(cmd, argv);
 				exit(0);
 			}
-			else /**in case of error*/
+			else
 			{
 				waitpid(child_pid, &status, 0);
-				if (status != 0)
+				if (WIFEXITED(status))
 				{
-					exit(2);
+					if (WEXITSTATUS(status) == 0)
+						return (0);
+					else if (WEXITSTATUS(status) == 2)
+						return (2);
+					else if (WEXITSTATUS(status) == 127)
+						return (127);
 				}
+				return (127);
 			}
 		}
-		else /* if invalid, don't fork() new process */
+		else
 		{
-			perror("Error:");
+			perror ("Error");
 		}
 	}
+	return (127);
 }
 
 /**
  * execute - to execute the line given by user.
  * @cmd: The command to execute.
  * @argv: command and arguments to be executed.
- * Return: nothing
+ * Return: void.
 */
-void execute(char *cmd, char **argv)
+int execute(char *cmd, char **argv)
 {
 	/* execute command & check execve */
 	if (execve(cmd, argv, NULL) == -1)
 	{
 		perror("Error");
+		return (2);
 	}
+	return (0);
 }

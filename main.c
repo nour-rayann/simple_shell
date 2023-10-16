@@ -31,5 +31,5 @@ int main(void)
 		wait(&state);
 	}
 	free(line_ptr);
-	return (0);
+	return (state);
 }
