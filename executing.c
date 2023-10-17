@@ -39,8 +39,7 @@ int execute_command(char **argv)
 				{
 					free(cmd);
 					cmd = NULL;
-				}
-				
+				}	
 			}
 		}
 		else
