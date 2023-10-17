@@ -9,51 +9,47 @@ int execute_command(char **argv)
 {
 	pid_t child_pid;
 	char *cmd = NULL, *cmd_copy = NULL;
-	int status;
+	int status = 0;
 
 	if (argv && argv[0]) /* check for non-empty case */
 	{
-		/* Check if the command is "exit" */
-		if (_strcmp(argv[0], "exit") == 0)
-		{
-			exit(0);
-		}
-
 		/* store command */
 		cmd_copy = argv[0];
 
 		/* generate the path to the command */
 		cmd = get_address(cmd_copy);
-
 		if (cmd != NULL) /* check if PATH is valid */
 		{
 			child_pid = fork(); /* fork a new process */
 			if (child_pid == 0)
 			{
-				execute(cmd, argv);
-				exit(0);
+				status = execute(cmd, argv);
+				free(cmd);
+				cmd = NULL;
+				exit(status);
 			}
 			else
 			{
 				waitpid(child_pid, &status, 0);
 				if (WIFEXITED(status))
 				{
-					if (WEXITSTATUS(status) == 0)
-						return (0);
-					else if (WEXITSTATUS(status) == 2)
-						return (2);
-					else if (WEXITSTATUS(status) == 127)
-						return (127);
+					status = WEXITSTATUS(status);
 				}
-				return (127);
+				if (isatty(STDIN_FILENO))
+				{
+					free(cmd);
+					cmd = NULL;
+				}
+				
 			}
 		}
 		else
 		{
-			perror ("Error");
+			perror("Error");
+			status = 127;
 		}
-	}
-	return (127);
+	}	
+	return (status);
 }
 
 /**

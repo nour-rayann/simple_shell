@@ -12,10 +12,15 @@ char *_strcpy(char *line_ptr)
 
 	len = _strlen(line_ptr);
 	copied = malloc((len + 1) * sizeof(char));
-	for (i = 0; i <= len; i++)
+	if (copied == NULL)
+	{
+		return (NULL);
+	}
+	for (i = 0; i < len; i++)
 	{
 		copied[i] = line_ptr[i];
 	}
+	copied[i] = '\0';
 	return (copied);
 }
 

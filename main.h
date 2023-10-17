@@ -2,6 +2,7 @@
 #define MAIN_H
 #define _GNU_SOURCE
 #define _POSIX_C_SOURCE 200809L
+#define MAX_LINE_LENGTH 1024
 
 #include <stdio.h>
 #include <stdlib.h>

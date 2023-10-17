@@ -20,7 +20,6 @@ char *get_address(char *cmd_copy)
 		while (path_token != NULL)
 		{
 			file_path = check_dir(path_token, cmd_copy, _strlen(cmd_copy));
-
 			if (file_path != NULL) /* check if path is valid */
 			{
 				free(path_copy); /* free _strdup malloc */
@@ -29,12 +28,11 @@ char *get_address(char *cmd_copy)
 
 			path_token = strtok(NULL, ":"); /* tokenize path */
 		}
+		free(path_copy);
 		/* check if cmd is a path */
 		file_path = check_cmd(cmd_copy);
-
 		return (file_path);
 	}
-
 	return (NULL);
 }
 
@@ -55,7 +53,8 @@ char *check_dir(char *path_token, char *cmd_copy, int cmd_length)
 
 	dir_length = _strlen(path_token);
 	file_path = malloc(cmd_length + dir_length + 2); /* +2 is for '/' & '\0' */
-
+	if (file_path == NULL)
+		return (NULL);
 	/* build path for command: */
 	_strcpy2(file_path, path_token); /* 1. copy directory path */
 	_strcat(file_path, "/"); /* 2. add slash to path */
@@ -69,6 +68,7 @@ char *check_dir(char *path_token, char *cmd_copy, int cmd_length)
 	else
 	{
 		free(file_path);
+		file_path = NULL;
 		return (NULL);
 	}
 }
@@ -87,6 +87,5 @@ char *check_cmd(char *cmd_copy)
 	{
 		return (cmd_copy);
 	}
-
 	return (NULL);
 }

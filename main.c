@@ -5,7 +5,6 @@
 */
 int main(void)
 {
-	struct stat stdin_stat;
 	ssize_t num_char_read;
 	size_t n;
 	char *line_ptr = NULL;
@@ -14,18 +13,23 @@ int main(void)
 
 	while (1)
 	{
-		if (fstat(STDIN_FILENO, &stdin_stat) == 0 && S_ISCHR(stdin_stat.st_mode))
+		if (isatty(STDIN_FILENO))
 			printf("simple_shell$ ");
-
 		num_char_read = getline(&line_ptr, &n, stdin);
 		if (num_char_read == -1)
 		{
-			free(line_ptr);
+			if (line_ptr)
+				free(line_ptr);
 			exit(0);
 		}
-
 		tokens = create_tokens(line_ptr);
-
+		if (_strcmp(tokens[0], "exit") == 0)
+		{
+			free_tokens(tokens);
+			free(line_ptr);
+			line_ptr = NULL;
+			exit(0);
+		}
 		execute_command(tokens);
 		free_tokens(tokens);
 		wait(&state);

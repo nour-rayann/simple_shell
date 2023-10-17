@@ -33,19 +33,27 @@ char **create_tokens(char *lineptr)
 	char **argv;
 	int num, i;
 
-	num = num_tokens(lineptr_copy);
-	argv = malloc(sizeof(char *) * num); /* malloc for tokens */
-	token = strtok(lineptr, delim);
-
+	num = num_tokens(lineptr);
+	argv = malloc(sizeof(char *) * (num + 1));
+	if (argv == NULL)
+	{
+		free(lineptr_copy);
+		return (NULL);
+	}
+	token = strtok(lineptr_copy, delim);
 	for (i = 0; token != NULL; i++)
 	{
-		/* create grid to store tokens */
-		argv[i] = malloc(_strlen(token) * sizeof(char));
 		argv[i] = _strcpy(token);
+		if (argv[i] == NULL)
+		{
+			free_tokens(argv);
+			free(lineptr_copy);
+			return (NULL);
+		}
 		token = strtok(NULL, delim);
 	}
-	argv[i] = NULL; /* terminate with NULL byte */
-
+	argv[i] = NULL;
+	free(lineptr_copy);
 	return (argv);
 }
 
@@ -58,6 +66,8 @@ void free_tokens(char **tokens)
 {
 	int i;
 
+	if (tokens == NULL)
+		return;
 	/* loop to free 'argv' grid */
 	for (i = 0; tokens[i] != NULL; i++)
 	{
