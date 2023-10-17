@@ -13,6 +13,23 @@
 
 int main(void);
 
+/** builtin handling **/
+/**
+* struct builtin_s - Builtin struct
+* @name: name of builtin (string).
+* @f: function pointer
+*/
+typedef struct builtin_s
+{
+	char *name;
+	int (*f)(char **);
+} builtin_t;
+
+int (*get_builtin(char *cmd))(char **);
+
+/* global variable for _getenv */
+extern char **environ;
+
 /* custom functions */
 char *_strcpy(char *line_ptr);
 char *_strcpy2(char *dest, char *src);
@@ -35,5 +52,10 @@ int execute(char *cmd, char **argv);
 char *get_address(char *cmd_copy);
 char *check_dir(char *path_token, char *cmd_copy, int cmd_length);
 char *check_cmd(char *cmd_copy);
+
+/* environment */
+int cmp_env_name(const char *nenv, const char *name);
+char *_getenv(const char *name);
+int _env(char **environ);
 
 #endif

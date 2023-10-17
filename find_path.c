@@ -10,7 +10,7 @@ char *get_address(char *cmd_copy)
 {
 	char *path, *path_copy, *path_token, *file_path;
 
-	path = getenv("PATH");
+	path = _getenv("PATH");
 
 	if (path)
 	{

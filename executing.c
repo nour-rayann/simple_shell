@@ -16,6 +16,22 @@ int execute_command(char **argv)
 		/* store command */
 		cmd_copy = argv[0];
 
+		/* Check if the command is a built-in command */
+		int (*builtin)(char **) = get_builtin(cmd_copy);
+
+		if (builtin != NULL)
+		{
+			/* Execute the built-in command */
+			if (_strcmp(cmd_copy, "env") == 0)
+			{
+				return (builtin(environ));
+			}
+			else
+			{
+				return (builtin(argv));
+			}
+		}
+
 		/* generate the path to the command */
 		cmd = get_address(cmd_copy);
 		if (cmd != NULL) /* check if PATH is valid */
@@ -39,7 +55,7 @@ int execute_command(char **argv)
 				{
 					free(cmd);
 					cmd = NULL;
-				}	
+				}
 			}
 		}
 		else
@@ -47,7 +63,7 @@ int execute_command(char **argv)
 			perror("Error");
 			status = 127;
 		}
-	}	
+	}
 	return (status);
 }
 
