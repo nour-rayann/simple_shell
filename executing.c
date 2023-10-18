@@ -7,10 +7,8 @@
  */
 int execute_command(char **argv)
 {
-	pid_t child_pid;
 	char *cmd = NULL, *cmd_copy = NULL;
 	int status = 0;
-	int (*builtin)(char **);
 
 	if (argv && argv[0]) /* check for non-empty case */
 	{
@@ -18,41 +16,20 @@ int execute_command(char **argv)
 		cmd_copy = argv[0];
 
 		/* Check if the command is a built-in command */
-		builtin = get_builtin(cmd_copy);
-
-		if (builtin != NULL)
+		if (is_builtin_cmd(cmd_copy))
 		{
-			/* Execute the built-in command */
-			if (_strcmp(cmd_copy, "env") == 0)
-			{
-				return (builtin(environ));
-			}
-			else
-			{
-				return (builtin(argv));
-			}
+			/* execute the built-in command */
+			return (execute_builtin_cmd(cmd_copy, argv));
 		}
 
 		/* generate the path to the command */
 		cmd = get_address(cmd_copy);
 		if (cmd != NULL) /* check if PATH is valid */
 		{
-			child_pid = fork(); /* fork a new process */
-			if (child_pid == 0)
-			{
-				status = execute(cmd, argv);
-				free(cmd);
-				cmd = NULL;
-				exit(status);
-			}
-			else
-			{
-				waitpid(child_pid, &status, 0);
-				if (WIFEXITED(status))
-				{
-					status = WEXITSTATUS(status);
-				}
-			}
+			/* execute the external command */
+			status = execute_external_cmd(cmd, argv);
+			free(cmd);
+			cmd = NULL;
 		}
 		else
 		{
@@ -64,9 +41,75 @@ int execute_command(char **argv)
 }
 
 /**
+ * is_builtin_cmd - Checks if command is a built-in (boolean).
+ * @cmd_copy: The command.
+ * Return: 1 if yes else 0.
+ */
+int is_builtin_cmd(char *cmd_copy)
+{
+	int (*builtin)(char **) = get_builtin(cmd_copy);
+
+	/* boolean function */
+	if (builtin != NULL)
+	{
+		return (1);
+	}
+	return (0);
+}
+
+/**
+ * execute_builtin_cmd - Execute built-in command.
+ * @cmd_copy: The command.
+ * @argv: The command and arguments to be executed.
+ * Return: xx
+ */
+int execute_builtin_cmd(char *cmd_copy, char **argv)
+{
+	int (*builtin)(char **) = get_builtin(cmd_copy);
+
+	if (_strcmp(cmd_copy, "env") == 0)
+	{
+		return (builtin(environ));
+	}
+	else
+	{
+		return (builtin(argv));
+	}
+}
+
+/**
+ * execute_external_cmd - Executes external commands.
+ * @cmd: The command.
+ * @argv: The command and arguments to be executed.
+ * Return: xx
+ */
+int execute_external_cmd(char *cmd, char **argv)
+{
+	pid_t child_pid;
+	int status = 0;
+
+	child_pid = fork(); /* fork a new process */
+	if (child_pid == 0)
+	{
+		status = execute(cmd, argv);
+		exit(status);
+	}
+	else
+	{
+		waitpid(child_pid, &status, 0);
+		if (WIFEXITED(status))
+		{
+			status = WEXITSTATUS(status);
+		}
+	}
+
+	return (status);
+}
+
+/**
  * execute - to execute the line given by user.
  * @cmd: The command to execute.
- * @argv: command and arguments to be executed.
+ * @argv: The command and arguments to be executed.
  * Return: void.
 */
 int execute(char *cmd, char **argv)

@@ -47,6 +47,9 @@ void free_tokens(char **tokens);
 /* command execution */
 int execute_command(char **argv);
 int execute(char *cmd, char **argv);
+int is_builtin_cmd(char *cmd_copy);
+int execute_builtin_cmd(char *cmd_copy, char **argv);
+int execute_external_cmd(char *cmd, char **argv);
 
 /* PATH handling */
 char *get_address(char *cmd_copy);

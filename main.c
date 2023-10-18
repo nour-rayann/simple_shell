@@ -16,6 +16,7 @@ int main(void)
 		loop_count++;
 		if (isatty(STDIN_FILENO))
 			printf("$ ");
+
 		num_char_read = getline(&line_ptr, &n, stdin);
 		if (num_char_read == -1)
 		{
@@ -23,6 +24,7 @@ int main(void)
 				free(line_ptr);
 			exit(0);
 		}
+
 		tokens = create_tokens(line_ptr);
 		if (tokens && tokens[0])
 		{
