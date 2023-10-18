@@ -38,10 +38,12 @@ int main(void)
 				free_tokens(tokens);
 				free(line_ptr);
 				line_ptr = NULL;
-				exit(0); }
+				exit(0);
+			}
 			execute_command(tokens);
 			free_tokens(tokens);
-			wait(&state); }
+			wait(&state);
+		}
 	}
 	free(line_ptr);
 	return (state);

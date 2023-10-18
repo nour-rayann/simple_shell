@@ -8,13 +8,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
+#include <sys/wait.h> /* wait */
+#include <sys/stat.h> /* fstat */
 #include <ctype.h>
 
 int main(void);
 
-/** builtin handling **/
+/***** built-in handling *****/
 /**
 * struct builtin_s - Builtin struct
 * @name: name of builtin (string).
@@ -28,7 +28,7 @@ typedef struct builtin_s
 
 int (*get_builtin(char *cmd))(char **);
 
-/* global variable for _getenv */
+/* for global environment variable(s) */
 extern char **environ;
 
 /* custom functions */
@@ -65,5 +65,7 @@ int _env(char **environ);
 /*handle spaces*/
 char *trim_spaces(char *cmd);
 
+/* input */
 ssize_t _getline(char **command_buff, size_t *n);
+
 #endif
