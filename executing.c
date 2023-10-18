@@ -10,6 +10,7 @@ int execute_command(char **argv)
 	pid_t child_pid;
 	char *cmd = NULL, *cmd_copy = NULL;
 	int status = 0;
+	int (*builtin)(char **);
 
 	if (argv && argv[0]) /* check for non-empty case */
 	{
@@ -17,7 +18,7 @@ int execute_command(char **argv)
 		cmd_copy = argv[0];
 
 		/* Check if the command is a built-in command */
-		int (*builtin)(char **) = get_builtin(cmd_copy);
+		builtin = get_builtin(cmd_copy);
 
 		if (builtin != NULL)
 		{
@@ -50,11 +51,6 @@ int execute_command(char **argv)
 				if (WIFEXITED(status))
 				{
 					status = WEXITSTATUS(status);
-				}
-				if (isatty(STDIN_FILENO))
-				{
-					free(cmd);
-					cmd = NULL;
 				}
 			}
 		}
