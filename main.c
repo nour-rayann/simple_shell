@@ -17,7 +17,7 @@ int main(void)
 		if (isatty(STDIN_FILENO))
 			printf("$ ");
 
-		num_char_read = getline(&line_ptr, &n, stdin);
+		num_char_read = _getline(&line_ptr, &n);
 		if (num_char_read == -1)
 		{
 			if (line_ptr)

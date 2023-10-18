@@ -64,4 +64,6 @@ int _env(char **environ);
 
 /*handle spaces*/
 char *trim_spaces(char *cmd);
+
+ssize_t _getline(char **command_buff, size_t *n);
 #endif

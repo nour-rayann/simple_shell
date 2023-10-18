@@ -66,3 +66,14 @@ char *trim_spaces(char *cmd)
 	cmd[i + n] = '\0';
 	return (cmd);
 }
+
+/**
+ * _getline - to read line
+ * @line_ptr: command read
+ * @n: size
+ * Return: num of chars read
+*/
+ssize_t _getline(char **line_ptr, size_t *n)
+{
+	return (getline(line_ptr, n, stdin));
+}
