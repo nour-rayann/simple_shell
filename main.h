@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <ctype.h>
 
 int main(void);
 
@@ -61,4 +62,6 @@ int cmp_env_name(const char *nenv, const char *name);
 char *_getenv(const char *name);
 int _env(char **environ);
 
+/*handle spaces*/
+char *trim_spaces(char *cmd);
 #endif

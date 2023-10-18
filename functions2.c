@@ -41,3 +41,28 @@ char *_strdup(char *s)
 	_memcpy(new, s, len + 1);
 	return (new);
 }
+
+/**
+ * trim_spaces - Removes leading and trailing whitespace from a string.
+ * @cmd: The string to be trimmed.
+ * Return: A pointer to the trimmed string.
+ */
+char *trim_spaces(char *cmd)
+{
+	int i = 0, n;
+
+	/**Remove leading spaces*/
+	while (isspace(cmd[i]))
+		i++;
+	n = _strlen(cmd + i);
+	if (n == 0)
+	{
+		cmd = NULL;
+		return (cmd);
+	}
+	/**Remove trailing spaces*/
+	while (isspace(cmd[i + n - 1]))
+		n--;
+	cmd[i + n] = '\0';
+	return (cmd);
+}

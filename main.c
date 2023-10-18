@@ -24,7 +24,12 @@ int main(void)
 				free(line_ptr);
 			exit(0);
 		}
-
+		line_ptr = trim_spaces(line_ptr);
+		if (!line_ptr)
+		{
+			free(line_ptr);
+			continue;
+		}
 		tokens = create_tokens(line_ptr);
 		if (tokens && tokens[0])
 		{
@@ -33,12 +38,10 @@ int main(void)
 				free_tokens(tokens);
 				free(line_ptr);
 				line_ptr = NULL;
-				exit(0);
-			}
+				exit(0); }
 			execute_command(tokens);
 			free_tokens(tokens);
-			wait(&state);
-		}
+			wait(&state); }
 	}
 	free(line_ptr);
 	return (state);
