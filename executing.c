@@ -63,14 +63,17 @@ int is_builtin_cmd(char *cmd_copy)
  */
 int execute_builtin_cmd(char *cmd_copy, char **argv)
 {
+	/* get appropriate function */
 	int (*builtin)(char **) = get_builtin(cmd_copy);
 
 	if (_strcmp(cmd_copy, "env") == 0)
 	{
+		/* execute custom env built-in */
 		return (builtin(environ));
 	}
 	else
 	{
+		/* execute built-in */
 		return (builtin(argv));
 	}
 }
@@ -86,17 +89,18 @@ int execute_external_cmd(char *cmd, char **argv)
 	pid_t child_pid;
 	int status = 0;
 
-	child_pid = fork(); /* fork a new process */
-	if (child_pid == 0)
+	child_pid = fork(); /* create a new process */
+	if (child_pid == 0) /* child process */
 	{
-		status = execute(cmd, argv);
+		status = execute(cmd, argv); /* execute command */
 		exit(status);
 	}
-	else
+	else /* parent process */
 	{
-		waitpid(child_pid, &status, 0);
-		if (WIFEXITED(status))
+		waitpid(child_pid, &status, 0); /* wait for child process */
+		if (WIFEXITED(status)) /* check for normal exit */
 		{
+			/* exit status handling */
 			if (WEXITSTATUS(status) == 0)
 				return (0);
 			else if (WEXITSTATUS(status) == 2)
@@ -104,7 +108,7 @@ int execute_external_cmd(char *cmd, char **argv)
 			else if (WEXITSTATUS(status) == 127)
 				return (127);
 		}
-		return (127);
+		return (127); /* return correct status */
 	}
 	return (status);
 }
@@ -118,12 +122,12 @@ int execute_external_cmd(char *cmd, char **argv)
 int execute(char *cmd, char **argv)
 {
 	/* execute command & check execve */
-	if (access(cmd, R_OK) == -1)
+	if (access(cmd, R_OK) == -1) /* check if cmd/path is readable */
 	{
 		perror(NULL);
 		exit(2);
 	}
-	if (execve(cmd, argv, NULL) == -1)
+	if (execve(cmd, argv, NULL) == -1) /* replace current process */
 	{
 		perror("Error");
 		return (2);
