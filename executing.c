@@ -28,8 +28,6 @@ int execute_command(char **argv)
 		{
 			/* execute the external command */
 			status = execute_external_cmd(cmd, argv);
-			free(cmd);
-			cmd = NULL;
 		}
 		else
 		{
@@ -99,10 +97,15 @@ int execute_external_cmd(char *cmd, char **argv)
 		waitpid(child_pid, &status, 0);
 		if (WIFEXITED(status))
 		{
-			status = WEXITSTATUS(status);
+			if (WEXITSTATUS(status) == 0)
+				return (0);
+			else if (WEXITSTATUS(status) == 2)
+				return (2);
+			else if (WEXITSTATUS(status) == 127)
+				return (127);
 		}
+		return (127);
 	}
-
 	return (status);
 }
 
@@ -115,6 +118,11 @@ int execute_external_cmd(char *cmd, char **argv)
 int execute(char *cmd, char **argv)
 {
 	/* execute command & check execve */
+	if (access(cmd, R_OK) == -1)
+	{
+		perror(NULL);
+		exit(2);
+	}
 	if (execve(cmd, argv, NULL) == -1)
 	{
 		perror("Error");
