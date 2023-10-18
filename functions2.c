@@ -57,8 +57,8 @@ char *trim_spaces(char *cmd)
 	n = _strlen(cmd + i);
 	if (n == 0)
 	{
-		cmd = NULL;
-		return (cmd);
+		free(cmd);
+		return (NULL);
 	}
 	/**Remove trailing spaces*/
 	while (isspace(cmd[i + n - 1]))
