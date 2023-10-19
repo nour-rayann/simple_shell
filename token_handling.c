@@ -7,7 +7,7 @@
 */
 int num_tokens(char *line_ptr)
 {
-	const char *delim = " \n";
+	const char *delim = " \n"; /* spaces & newline */
 	char *token;
 	int num = 1;
 
@@ -28,7 +28,7 @@ int num_tokens(char *line_ptr)
 char **create_tokens(char *lineptr)
 {
 	char *lineptr_copy = _strcpy(lineptr);
-	char *delim = " \n";
+	char *delim = " \n"; /* spaces & newline */
 	char *token;
 	char **argv;
 	int num, i;
