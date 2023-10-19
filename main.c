@@ -36,7 +36,7 @@ int main(void)
 			line_ptr = NULL;
 			exit(0); } /* line end */
 		tokens = create_tokens(line_ptr);
-		if(tokens && tokens[0])
+		if (tokens && tokens[0])
 		{
 			execute_command(tokens);
 			free_tokens(tokens);
