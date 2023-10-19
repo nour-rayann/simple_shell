@@ -2,7 +2,7 @@
 
 /**
  * get_address - Gets the aaddress of the command.
- * @cmd_copy: A sting containing the command.
+ * @cmd_copy: A string containing the command.
  * Return: The path to the command.
  */
 
