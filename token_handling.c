@@ -35,7 +35,7 @@ char **create_tokens(char *lineptr)
 
 	num = num_tokens(lineptr);
 	argv = malloc(sizeof(char *) * (num + 1));
-	if (argv == NULL)
+	if (argv == NULL) /* argv check */
 	{
 		free(lineptr_copy);
 		return (NULL);
