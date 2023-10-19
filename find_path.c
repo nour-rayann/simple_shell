@@ -65,7 +65,7 @@ char *check_dir(char *path_token, char *cmd_copy, int cmd_length)
 	{
 		return (file_path);
 	}
-	else
+	else /* invalid path */
 	{
 		free(file_path);
 		file_path = NULL;
