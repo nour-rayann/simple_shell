@@ -28,8 +28,7 @@ int main(void)
 		if (!line_ptr)
 		{
 			free(line_ptr);
-			continue;
-		}
+			continue; }
 		if (_strcmp(line_ptr, "exit") == 0)
 		{
 			free(line_ptr);
@@ -39,9 +38,9 @@ int main(void)
 		if (tokens && tokens[0])
 		{
 			execute_command(tokens);
-			free_tokens(tokens);
+			if (tokens)
+				free_tokens(tokens);
 			wait(&state); } /* line end */
 	}
 	free(line_ptr);
-	return (state);
-}
+	return (state); }
