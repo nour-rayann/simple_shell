@@ -40,7 +40,7 @@ char **create_tokens(char *lineptr)
 		free(lineptr_copy);
 		return (NULL);
 	}
-	token = strtok(lineptr_copy, delim);
+	token = strtok(lineptr_copy, delim); /* tokenize */
 	for (i = 0; token != NULL; i++)
 	{
 		argv[i] = _strcpy(token);
