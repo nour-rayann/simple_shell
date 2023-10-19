@@ -30,15 +30,14 @@ int main(void)
 			free(line_ptr);
 			continue;
 		}
-		tokens = create_tokens(line_ptr);
-		if (tokens && tokens[0])
+		if (_strcmp(line_ptr, "exit") == 0)
 		{
-			if (_strcmp(tokens[0], "exit") == 0)
-			{
-				free_tokens(tokens);
-				free(line_ptr);
-				line_ptr = NULL;
-				exit(0); } /* line end */
+			free(line_ptr);
+			line_ptr = NULL;
+			exit(0); } /* line end */
+		tokens = create_tokens(line_ptr);
+		if(tokens && tokens[0])
+		{
 			execute_command(tokens);
 			free_tokens(tokens);
 			wait(&state); } /* line end */
