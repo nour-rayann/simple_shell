@@ -28,8 +28,6 @@ int execute_command(char **argv)
 		{
 			/* execute the external command */
 			status = execute_external_cmd(cmd, argv);
-			free(cmd);
-			cmd = NULL;
 		}
 		else
 		{
